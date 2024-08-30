@@ -1,5 +1,10 @@
 # Grompt Chrome Plugin
 
+![image](https://github.com/user-attachments/assets/150ed71a-d93d-42f5-9472-54dad9b351bb)
+
+![image](https://github.com/user-attachments/assets/3a00f797-698f-4133-b1e6-eebc8ca4c9a7)
+
+
 ## Description
 Grompt is a self-contained Chrome plugin that re-engineers your prompts for optimal results using the Groq API. It allows users to quickly refine their prompts directly within their browser, enhancing the quality of their AI interactions.
 
