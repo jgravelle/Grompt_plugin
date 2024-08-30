@@ -1,16 +1,15 @@
 # Grompt Chrome Plugin
 
 ## Description
-Grompt is a Chrome plugin that will re-engineer your prompts for optimal results.
+Grompt is a self-contained Chrome plugin that re-engineers your prompts for optimal results using the Groq API. It allows users to quickly refine their prompts directly within their browser, enhancing the quality of their AI interactions.
 
 ## Installation
 
 ### Prerequisites
-- Python 3.7 or higher
-- pip (Python package installer)
 - Google Chrome browser
+- Groq API key
 
-### Downloading and Installing Grompt
+### Installing the Grompt Plugin
 
 1. Clone or download the Grompt repository to your local machine:
    ```
@@ -18,64 +17,42 @@ Grompt is a Chrome plugin that will re-engineer your prompts for optimal results
    ```
    or download and extract the ZIP file from the repository.
 
-2. Navigate to the Grompt directory:
-   ```
-   cd Grompt
-   ```
+2. Open Google Chrome and navigate to `chrome://extensions/`.
 
-3. Install the required Python packages:
-   ```
-   pip install -r requirements.txt
-   ```
+3. Enable "Developer mode" by toggling the switch in the top right corner.
 
-4. Open Google Chrome and navigate to `chrome://extensions/`.
+4. Click on "Load unpacked" button that appears after enabling Developer mode.
 
-5. Enable "Developer mode" by toggling the switch in the top right corner.
+5. Navigate to the `Grompt_plugin` directory within the Grompt folder and select it.
 
-6. Click on "Load unpacked" button that appears after enabling Developer mode.
+6. The Grompt plugin should now be installed and visible in your Chrome extensions.
 
-7. Navigate to the `Grompt_plugin` directory within the Grompt folder and select it.
+## Configuration
 
-8. The Grompt plugin should now be installed and visible in your Chrome extensions.
-
-### Running the Grompt Server
-
-1. Create a `.env` file in the root directory of the project and add your Groq API key:
-   ```
-   GROQ_API_KEY=your_api_key_here
-   ```
-
-2. Start the Grompt server:
-   ```
-   python server.py
-   ```
-   The server will start running on `http://localhost:5000`.
+1. Click on the Grompt icon in your Chrome toolbar to open the popup.
+2. Enter your Groq API key in the provided field.
+3. Click "Save" to store your API key securely.
 
 ## File Structure
 
 ```
-Grompt/
-│   server.py
-│   requirements.txt
-│   .env
+Grompt_plugin/
+│   background.js
+│   content.js
+│   icon128.png
+│   icon16.png
+│   icon48.png
+│   manifest.json
+│   popup.html
+│   popup.js
 │   README.md
-│
-└───Grompt_plugin/
-    │   background.js
-    │   content.js
-    │   icon128.png
-    │   icon16.png
-    │   icon48.png
-    │   manifest.json
-    │   popup.html
-    │   popup.js
 ```
 
 ## Usage
 
-1. Ensure the Grompt server is running (`python server.py`).
-2. Right-click on the request input text for any LLM and select 'GROMPT!' from the context menu.
-3. If the revised text doesn't auto-appear, do a 'Paste' (CTL-V).  It's that easy!
+1. Right-click on the request input text for any LLM and select 'GROMPT!' from the context menu.
+2. The optimized text will replace the original text and be copied to your clipboard.
+3. If the revised text doesn't auto-appear, do a 'Paste' (CTL-V). It's that easy!
 
 ## Development
 
@@ -86,26 +63,39 @@ To make changes to the plugin:
 3. Go to `chrome://extensions/` in Chrome.
 4. Find the Grompt plugin and click the "Reload" button.
 
-To make changes to the server:
-
-1. Edit `server.py` as needed.
-2. Restart the server for changes to take effect.
-
 ## Troubleshooting
 
 If you encounter any issues:
 
-1. Ensure all files are in the correct location.
-2. Check that the server is running and accessible.
-3. Verify your Groq API key is correctly set in the `.env` file.
-4. Check the browser console and server logs for any error messages.
-5. Try disabling and re-enabling the plugin.
-6. If problems persist, uninstall and reinstall the plugin.
+1. Ensure your Groq API key is correctly entered in the plugin settings.
+2. Check the browser console for any error messages.
+3. Verify that you have an active internet connection.
+4. Try disabling and re-enabling the plugin.
+5. If problems persist, uninstall and reinstall the plugin.
+
+## Security Note
+
+Your Groq API key is stored securely in Chrome's sync storage. However, always keep your API keys confidential and do not share them publicly.
 
 ## Support
 
-For support, please [provide contact information or support channels].
+For support, please get a puppy.  Second option: GitHub.
 
 ## License
 
-[Include license information here]
+Grompt! is proudly open-source and released under the [MIT License](https://opensource.org/licenses/MIT).
+
+Thank you for choosing Grompt! as your AI-powered conversational assistant. We are committed to redefining the boundaries of what AI can achieve and empowering you to tackle any question, problem, or project with ease and efficiency.
+
+## Copyright (c)2024 J. Gravelle
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+**1. The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.**
+
+**2. Any modifications made to the Software must clearly indicate that they are derived from the original work, and the name of the original author (J. Gravelle) must remain intact.**
+
+**3. Redistributions of the Software in source code form must also include a prominent notice that the code has been modified from the original.**
+
+THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+

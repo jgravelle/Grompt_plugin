@@ -1,13 +1,15 @@
 {
     "manifest_version": 3,
     "name": "Grompt",
-    "description": "Refactor text using Grompt.",
-    "version": "1.0",
+    "description": "Refactor text using Groq API.",
+    "version": "1.1",
     "permissions": [
         "contextMenus",
         "storage",
-        "activeTab",
-        "scripting"
+        "activeTab"
+    ],
+    "host_permissions": [
+        "https://api.groq.com/*"
     ],
     "background": {
         "service_worker": "background.js"

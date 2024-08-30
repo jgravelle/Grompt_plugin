@@ -14,9 +14,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         let selectedText = null;
         if (activeElement.isContentEditable) {
-            selectedText = activeElement.innerText;
+            selectedText = window.getSelection().toString() || activeElement.innerText;
         } else if (activeElement.value) {
-            selectedText = activeElement.value;
+            selectedText = activeElement.value.substring(activeElement.selectionStart, activeElement.selectionEnd) || activeElement.value;
         }
 
         if (!selectedText) {
@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         console.log("Selected text:", selectedText);
 
-        const url = 'http://localhost:5000/rephrase';
+        const url = 'https://api.groq.com/openai/v1/chat/completions';
         console.log("Fetching URL:", url);
 
         fetch(url, {
@@ -36,7 +36,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${message.apiKey}`
             },
-            body: JSON.stringify({ prompt: selectedText })
+            body: JSON.stringify({
+                model: "llama3-groq-70b-8192-tool-use-preview",
+                messages: [
+                    {role: "system", content: "You are a professional prompt engineer. Your task is to optimize the following user request into a well-structured, clear, and effective prompt."},
+                    {role: "user", content: `Optimize this prompt: "${selectedText}"`}
+                ],
+                max_tokens: 1024,
+                temperature: 0.7
+            })
         })
         .then(response => {
             console.log("Fetch response:", response);
@@ -47,14 +55,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         })
         .then(result => {
             console.log("Result:", result);
-            if (result.rephrased) {
+            if (result.choices && result.choices[0] && result.choices[0].message) {
+                const rephrased = result.choices[0].message.content.trim();
                 if (activeElement.isContentEditable) {
-                    activeElement.innerText = result.rephrased;
+                    activeElement.innerText = rephrased;
                 } else {
-                    activeElement.value = result.rephrased;
+                    activeElement.value = rephrased;
                 }
-                copyToClipboard(result.rephrased);
-                sendResponse({ success: true, rephrased: result.rephrased });
+                copyToClipboard(rephrased);
+                sendResponse({ success: true, rephrased: rephrased });
             } else {
                 sendResponse({ success: false, error: "Failed to rephrase the text" });
             }
