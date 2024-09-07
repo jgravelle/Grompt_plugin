@@ -39,13 +39,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             body: JSON.stringify({
                 model: "llama3-groq-70b-8192-tool-use-preview",
                 messages: [
-                    {role: "system", content: "You are a professional prompt engineer. Your task is to optimize the following user request into a well-structured, clear, and effective prompt."},
-                    {role: "user", content: `Optimize this prompt: "${selectedText}"`}
+                    {role: "system", content: "You are a professional prompt engineer. Your task is to optimize the user's prompt by making it clearer, more concise, and more effective. Only output the improved prompt without adding any commentary or labels. If the original prompt is already optimized, return it unchanged."},
+                    {role: "user", content: `${selectedText}`}
                 ],
-                max_tokens: 1024,
-                temperature: 0.7
+                max_tokens: 512,
+                temperature: 0.3
             })
         })
+        
         .then(response => {
             console.log("Fetch response:", response);
             if (!response.ok) {
@@ -56,7 +57,13 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         .then(result => {
             console.log("Result:", result);
             if (result.choices && result.choices[0] && result.choices[0].message) {
-                const rephrased = result.choices[0].message.content.trim();
+                let rephrased = result.choices[0].message.content.trim();
+                
+                // Remove surrounding quotes if present
+                if ((rephrased.startsWith('"') && rephrased.endsWith('"')) || (rephrased.startsWith("'") && rephrased.endsWith("'"))) {
+                    rephrased = rephrased.slice(1, -1);
+                }
+                
                 if (activeElement.isContentEditable) {
                     activeElement.innerText = rephrased;
                 } else {
@@ -68,6 +75,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 sendResponse({ success: false, error: "Failed to rephrase the text" });
             }
         })
+        
         .catch(error => {
             console.error("Error during fetch:", error);
             sendResponse({ success: false, error: error.message });
